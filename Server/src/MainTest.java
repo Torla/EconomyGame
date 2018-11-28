@@ -15,7 +15,7 @@ public class MainTest {
 					BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
 					String line;
 					try {
-						if(br.ready()) {
+						while(br.ready()) {
 							line = br.readLine();
 							System.out.println(line);
 						}
