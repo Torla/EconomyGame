@@ -30,6 +30,6 @@ public class ClientConnectionsRoutine implements Runnable{
 	}
 
 	public Set<ClientConnection> getClientConnections() {
-		return clientConnections;
+		return new HashSet<>(clientConnections);
 	}
 }
