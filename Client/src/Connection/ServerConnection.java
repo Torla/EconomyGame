@@ -32,6 +32,7 @@ public class ServerConnection {
 		}
 	}
 
+	@SuppressWarnings("Duplicates")
 	public static void send(InputStream x){
 		BufferedInputStream bis = new BufferedInputStream(x);
 

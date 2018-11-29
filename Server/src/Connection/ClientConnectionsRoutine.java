@@ -1,5 +1,7 @@
 package Connection;
 
+import Service.ClientCare;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashSet;
@@ -22,7 +24,9 @@ public class ClientConnectionsRoutine implements Runnable{
 	public void run() {
 		while(true){
 			try {
-				clientConnections.add(new ClientConnection(listenSock.accept()));
+				ClientConnection con = new ClientConnection(listenSock.accept());
+				clientConnections.add(con);
+				new Thread(new ClientCare(con)).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

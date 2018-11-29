@@ -1,11 +1,11 @@
 package WorldData;
 
 public class WorldData{
-	static WorldType world;
+	static World world;
 	static public void set(Object o){
-		world=(WorldType) o;
+		world=(World) o;
 	}
-	static public WorldType get(){
+	static public World get(){
 		return world;
 	}
 }
