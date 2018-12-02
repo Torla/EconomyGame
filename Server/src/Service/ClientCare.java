@@ -4,7 +4,6 @@ import Connection.ClientConnection;
 import Protocol.Protocol;
 
 import java.io.*;
-import java.util.Arrays;
 
 @SuppressWarnings("Duplicates")
 public class ClientCare implements Runnable {
@@ -42,7 +41,6 @@ public class ClientCare implements Runnable {
 				final int len = (1000< bis.available()) ? 1000: bis.available();
 				byte [] array  = new byte [len];
 				bis.read(array,0, len);
-				System.out.println(Arrays.toString(array));
 				connection.getOutputStream().write(array,0, array.length);
 			}
 			connection.getOutputStream().close(); //todo work around this;
