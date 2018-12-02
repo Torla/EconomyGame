@@ -8,7 +8,9 @@ public class Comunication {
 	static final String WORLD_REQUEST = "world\n";
 
 	public static InputStream getWorldData(){
-		ServerConnection.send(WORLD_REQUEST);
-		return ServerConnection.getInputStream();
+		ServerConnection serverConnection = new ServerConnection();
+		serverConnection.connect();
+		serverConnection.send(WORLD_REQUEST);
+		return serverConnection.getInputStream();
 	}
 }

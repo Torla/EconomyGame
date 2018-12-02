@@ -1,10 +1,8 @@
-import Connection.ServerConnection;
 import DataManger.DataManager;
 
 public class MainTest {
 	public static void main(String[] args) {
 
-		ServerConnection.connect();
 
 		DataManager.updateWorldData();
 		DataManager.updateWorldData();
@@ -17,6 +15,5 @@ public class MainTest {
 			e.printStackTrace();
 		}
 
-		ServerConnection.disconnect();
 	}
 }

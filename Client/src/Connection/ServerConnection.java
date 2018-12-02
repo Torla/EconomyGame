@@ -8,7 +8,7 @@ public class ServerConnection {
 	private final static int SERVER_PORT = 10123;
 	private static Socket socket;
 
-	public static void connect(){
+	public void connect(){
 		try {
 			socket = new Socket(SERVER_IP,SERVER_PORT);
 		} catch (IOException e) {
@@ -16,14 +16,14 @@ public class ServerConnection {
 		}
 	}
 
-	public static void disconnect(){
+	public void disconnect(){
 		try {
 			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	public static void send(String string){
+	public void send(String string){
 		try {
 				byte [] stringBytes  =  string.getBytes();
 				socket.getOutputStream().write(stringBytes,0, stringBytes.length);
@@ -49,7 +49,7 @@ public class ServerConnection {
 			e.printStackTrace();
 		}
 	}
-	public static InputStream getInputStream(){
+	public InputStream getInputStream(){
 		try {
 			return socket.getInputStream();
 		} catch (IOException e) {
