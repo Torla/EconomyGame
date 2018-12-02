@@ -1,6 +1,7 @@
 package Service;
 
 import Connection.ClientConnection;
+import Protocol.Protocol;
 
 import java.io.*;
 import java.util.Arrays;
@@ -19,14 +20,16 @@ public class ClientCare implements Runnable {
 		while(true){
 			String req=null;
 			try {
-				System.out.println("o");
+
 				req=br.readLine();
-				System.out.println("k");
+
+				if(req.equals(Protocol.worldMessage)){
+					sendWorldData();
+					return;
+				}
+
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-			if(req.equals("world")){
-					sendWorldData();
 			}
 		}
 	}

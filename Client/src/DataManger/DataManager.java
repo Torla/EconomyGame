@@ -13,11 +13,6 @@ public class DataManager {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance("WorldData");
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller ();
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 			objectJAXB = unmarshaller.unmarshal(Comunication.getWorldData());
 		} catch (JAXBException e) {
 			e.printStackTrace();

@@ -24,6 +24,7 @@ public class ServerConnection {
 		}
 	}
 	public void send(String string){
+		string=string.concat("\n");
 		try {
 				byte [] stringBytes  =  string.getBytes();
 				socket.getOutputStream().write(stringBytes,0, stringBytes.length);

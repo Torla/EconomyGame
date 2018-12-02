@@ -5,7 +5,6 @@ public class MainTest {
 
 
 		DataManager.updateWorldData();
-		DataManager.updateWorldData();
 
 		System.out.println(WorldData.WorldData.get().getProva2());
 

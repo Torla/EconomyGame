@@ -1,16 +1,18 @@
 package Comunication;
 
 import Connection.ServerConnection;
+import Protocol.Protocol;
 
 import java.io.InputStream;
 
+
 public class Comunication {
-	static final String WORLD_REQUEST = "world\n";
+
 
 	public static InputStream getWorldData(){
 		ServerConnection serverConnection = new ServerConnection();
 		serverConnection.connect();
-		serverConnection.send(WORLD_REQUEST);
+		serverConnection.send(Protocol.worldMessage);
 		return serverConnection.getInputStream();
 	}
 }

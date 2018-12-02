@@ -7,7 +7,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="ComunicationProtocol" exported="" />
-    <orderEntry type="module" module-name="DataStructure" exported="" />
   </component>
 </module>
