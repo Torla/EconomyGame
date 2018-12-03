@@ -93,8 +93,42 @@ public class City {
 
 	}
 	
-
 	public GoodsAttrs getProductionMod() {
 		return productionMod;
+	}
+
+	ProductionModifiersType buildProductionModType(){
+		ProductionModifiersType productionModifiersType=new ProductionModifiersType();
+		productionModifiersType.setClay(productionMod.getClay().byteValue());
+		productionModifiersType.setFood(productionMod.getFood().byteValue());
+		productionModifiersType.setWood(productionMod.getWood().byteValue());
+		productionModifiersType.setStone(productionMod.getStone().byteValue());
+		productionModifiersType.setForniture(productionMod.getForniture().byteValue());
+		productionModifiersType.setPottery(productionMod.getPottery().byteValue());
+		productionModifiersType.setGold(productionMod.getGold().byteValue());
+		return productionModifiersType;
+	}	
+	
+	StockType buildStockType(){
+		StockType stockType=new StockType();
+		stockType.setClay(stock.getClay().byteValue());
+		stockType.setFood(stock.getFood().byteValue());
+		stockType.setWood(stock.getWood().byteValue());
+		stockType.setStone(stock.getStone().byteValue());
+		stockType.setForniture(stock.getForniture().byteValue());
+		stockType.setPottery(stock.getPottery().byteValue());
+		stockType.setGold(stock.getGold().byteValue());
+		return stockType;
+	}	
+	
+	WorkersType buildworkersType(){
+		WorkersType workersType=new WorkersType();
+		workersType.setClay(workers.getClay().byteValue());
+		workersType.setFood(workers.getFood().byteValue());
+		workersType.setWood(workers.getWood().byteValue());
+		workersType.setStone(workers.getStone().byteValue());
+		workersType.setForniture(workers.getForniture().byteValue());
+		workersType.setPottery(workers.getPottery().byteValue());
+		return workersType;
 	}
 }

@@ -8,6 +8,9 @@ import java.util.List;
 public class World {
 
 	private List<City> cities = new LinkedList<>();
+
+	public World(){}
+
 	public World(Object o) {
 		WorldData.World world = (WorldData.World) o;
 		for(CityType cityType:world.getCity()) {
@@ -26,5 +29,22 @@ public class World {
 
 	public List<City> getCities() {
 		return cities;
+	}
+
+	public Object instanceObjectJAXB(){
+		WorldData.World o=new WorldData.World();
+		for(City city:cities){
+			CityType cityType=new CityType();
+			cityType.setName(city.getName());
+			cityType.setPopulation(city.getPopulation().byteValue());
+			cityType.setPostionY33(city.getPositionY().byteValue());
+			cityType.setPositionX(city.getPositionX().byteValue());
+			cityType.setHappines(city.getHappines().byteValue());
+			cityType.setProductionModifiers(city.buildProductionModType());
+			cityType.setStock(city.buildStockType());
+			cityType.setWorkers(city.buildworkersType());
+			o.getCity().add(cityType);
+		}
+		return o;
 	}
 }
