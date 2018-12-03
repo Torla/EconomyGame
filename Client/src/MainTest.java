@@ -6,7 +6,7 @@ public class MainTest {
 
 		DataManager.updateWorldData();
 
-		System.out.println(WorldData.WorldData.get().getCity().get(1).getProductionModifiers().getClay());
+		System.out.println(DataManager.world.getCities().get(1).getWorkers().getFood());
 
 		try {
 			Thread.sleep(100);

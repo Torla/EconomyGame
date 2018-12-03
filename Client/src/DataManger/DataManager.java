@@ -1,14 +1,15 @@
 package DataManger;
 
 import Comunication.Comunication;
-import WorldData.WorldData;
+import World.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 public class DataManager {
-	public static void updateWorldData(){
+	public static World world=null;
+	public static World updateWorldData(){
 		Object objectJAXB=null;
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance("WorldData");
@@ -17,6 +18,7 @@ public class DataManager {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		WorldData.set(objectJAXB);
+		DataManager.world = new World(objectJAXB);
+		return DataManager.world;
 	}
 }
