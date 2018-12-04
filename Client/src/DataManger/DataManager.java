@@ -7,9 +7,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 
 public class DataManager {
 	public static World world=null;
@@ -28,25 +26,15 @@ public class DataManager {
 
 	public static void postChange(String cityName){
 		Object object = world.instanceObjectJAXB(cityName);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance("WorldData");
 			Marshaller marshaller = jaxbContext.createMarshaller();
-		//	marshaller.marshal(object,new FileOutputStream("temp"));
+			marshaller.marshal(object,byteArrayOutputStream);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+		Comunication.PostStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()));
 
-		try {
-			Comunication.PostStream(new FileInputStream(new File("temp")));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 }
