@@ -2,7 +2,11 @@ package Service;
 
 import Connection.ClientConnection;
 import Protocol.Protocol;
+import World.World;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.*;
 
 @SuppressWarnings("Duplicates")
@@ -24,6 +28,10 @@ public class ClientCare implements Runnable {
 
 				if(req.equals(Protocol.worldMessage)){
 					sendWorldData();
+					return;
+				}
+				else if (req.equals(Protocol.post)){
+					acceptPost(br);
 					return;
 				}
 
@@ -48,4 +56,20 @@ public class ClientCare implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
+	private void acceptPost(BufferedReader br){
+
+
+		Object objectJAXB=null;
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance("WorldData");
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller ();
+			objectJAXB = unmarshaller.unmarshal(br);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		System.out.println(new World(objectJAXB).getCities().get(0).getWorkers().getFood());
+
+	}
+
 }

@@ -34,25 +34,33 @@ public class ServerConnection {
 	}
 
 	@SuppressWarnings("Duplicates")
-	public static void send(InputStream x){
+	public void send(InputStream x){
 		BufferedInputStream bis = new BufferedInputStream(x);
 
 		try {
 			while (bis.available()!=0) {
-
-
 				final int len = (1000< bis.available()) ? 1000: bis.available();
 				byte [] array  = new byte [len];
 				bis.read(array,0, len);
-				socket.getOutputStream().write(array,0, len);
+				System.out.println(new String(array));
+				socket.getOutputStream().write(array,0, array.length);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 	public InputStream getInputStream(){
 		try {
 			return socket.getInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public OutputStream getOutputStream(){
+		try {
+			return socket.getOutputStream();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

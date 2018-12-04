@@ -31,9 +31,10 @@ public class World {
 		return cities;
 	}
 
-	public Object instanceObjectJAXB(){
+	public Object instanceObjectJAXB(String cityName){
 		WorldData.World o=new WorldData.World();
 		for(City city:cities){
+			if(cityName != null && !cityName.equals(city.getName())) continue;
 			CityType cityType=new CityType();
 			cityType.setName(city.getName());
 			cityType.setPopulation(city.getPopulation().byteValue());

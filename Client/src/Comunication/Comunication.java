@@ -15,4 +15,12 @@ public class Comunication {
 		serverConnection.send(Protocol.worldMessage);
 		return serverConnection.getInputStream();
 	}
+
+	public static void PostStream(InputStream stream){
+		ServerConnection serverConnection = new ServerConnection();
+		serverConnection.connect();
+		serverConnection.send(Protocol.post);
+		serverConnection.send(stream);
+		serverConnection.disconnect();
+	}
 }
