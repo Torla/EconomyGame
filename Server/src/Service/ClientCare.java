@@ -2,12 +2,17 @@ package Service;
 
 import Connection.ClientConnection;
 import Protocol.Protocol;
+import Sec.Authentication;
 import World.World;
 
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.security.PublicKey;
+import java.util.Map;
+import java.util.Random;
 
 @SuppressWarnings("Duplicates")
 public class ClientCare implements Runnable {
@@ -20,27 +25,47 @@ public class ClientCare implements Runnable {
 	@Override
 	public void run() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		while(true){
-			String req=null;
-			try {
+		String req=null;
+		try {
 
-				req=br.readLine();
+			req=br.readLine();
 
-				if(req.equals(Protocol.worldMessage)){
-					sendWorldData();
-					return;
-				}
-				else if (req.equals(Protocol.post)){
-					acceptPost(br);
-					return;
-				}
-
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(req.equals(Protocol.worldMessage)){
+				sendWorldData();
+				return;
 			}
+			else if (req.equals(Protocol.post)){
+				acceptPost(br);
+				return;
+			}
+			else if(req.equals(Protocol.key)){
+				exchangeKey();
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
 	}
 
+	private void  exchangeKey(){
+		Map<String,Object> keys = null;
+		Integer sessionId= new Random().nextInt();
+		keys = Authentication.genAsymmetricKeys(sessionId.toString());
+
+		System.out.println(DatatypeConverter.printHexBinary(((PublicKey) keys.get("public")).getEncoded()));
+
+		try {
+			byte[] pubKey = ((PublicKey) keys.get("public")).getEncoded();
+			OutputStream out = connection.getOutputStream();
+			out.write(pubKey);
+			OutputStreamWriter outW = new OutputStreamWriter(out);
+			outW.write("/n");
+			outW.write(sessionId+"\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	private void sendWorldData(){
 		BufferedInputStream bis = null;
 		try {
@@ -56,7 +81,6 @@ public class ClientCare implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
 	private void acceptPost(BufferedReader br){
 
 

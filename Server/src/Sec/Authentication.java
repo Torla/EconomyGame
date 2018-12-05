@@ -1,14 +1,16 @@
-package Security;
+package Sec;
 
 import java.io.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Security {
+public class Authentication {
 
 	private static final String PSW_PATH= "Server/data/passwords.csv";
+
+	static SecureRandom secureRandom = new SecureRandom();
+	static KeyPairGenerator keyPairGenerator = null;
 
 	static private Map<String,String> passowrd = null;
 	static private Map<String,Map<String,Object>> keys = new HashMap<>();
@@ -77,4 +79,25 @@ public class Security {
 		}
 	}
 
+	public static Map<String,Object> genAsymmetricKeys(String name){
+		if(keyPairGenerator==null) {
+			try {
+				keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+			keyPairGenerator.initialize(2048, secureRandom);
+		}
+		KeyPair keyPair = keyPairGenerator.generateKeyPair();
+		PrivateKey privateKey = keyPair.getPrivate();
+		PublicKey publicKey = keyPair.getPublic();
+		Map<String, Object> key = new HashMap<String, Object>();
+		key.put("private", privateKey);
+		key.put("public", publicKey);
+		keys.put(name,key);
+		return key;
+	}
+	public strictfp  Map<String,Object> getAsymmetricKeys(String name){
+		return keys.get(name);
+	}
 }

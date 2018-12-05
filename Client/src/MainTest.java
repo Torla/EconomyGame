@@ -13,9 +13,9 @@ public class MainTest {
 
 		System.out.println(((World)(DataManager.world.instanceObjectJAXB(null))).getCity().get(1).getWorkers().getFood());
 
+		Comunication.Comunication.getKey();
 
-
-		DataManager.postChange("Biella");
+		//DataManager.postChange("Biella");
 
 		try {
 			Thread.sleep(100);
