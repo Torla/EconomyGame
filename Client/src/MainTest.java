@@ -9,7 +9,11 @@ public class MainTest {
 
 		System.out.println(DataManager.world.getCities().get(1).getWorkers().getFood());
 
+		DataManager.world.getCities().get(1).getWorkers().setFood(10);
+
 		System.out.println(((World)(DataManager.world.instanceObjectJAXB(null))).getCity().get(1).getWorkers().getFood());
+
+
 
 		DataManager.postChange("Biella");
 
