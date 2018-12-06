@@ -11,11 +11,10 @@ public class MainTest {
 
 		DataManager.world.getCities().get(1).getWorkers().setFood(10);
 
+		DataManager.postChange("Torino");
+
 		System.out.println(((World)(DataManager.world.instanceObjectJAXB(null))).getCity().get(1).getWorkers().getFood());
 
-		Comunication.Comunication.getKey();
-
-		//DataManager.postChange("Biella");
 
 		try {
 			Thread.sleep(100);

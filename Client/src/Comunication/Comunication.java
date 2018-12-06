@@ -3,11 +3,16 @@ package Comunication;
 import Connection.ServerConnection;
 import Protocol.Protocol;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.DatatypeConverter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
@@ -18,9 +23,9 @@ import java.security.spec.X509EncodedKeySpec;
 public class Comunication {
 
 	private static String sessionId;
-	private static PublicKey pubKey;
+	private static PublicKey pubKey=null;
 
-	public static void getKey(){
+	private static void getKey(){
 		ServerConnection serverConnection = new ServerConnection();
 		serverConnection.connect();
 		serverConnection.send(Protocol.key);
@@ -65,9 +70,27 @@ public class Comunication {
 	}
 
 	public static void PostStream(InputStream stream){
+		if(pubKey==null) getKey();
+		Cipher cipher=null;
+		try {
+			cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.ENCRYPT_MODE,pubKey);
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException e) {
+			e.printStackTrace();
+		}
+
+
 		ServerConnection serverConnection = new ServerConnection();
 		serverConnection.connect();
 		serverConnection.send(Protocol.post);
+		serverConnection.send(sessionId);
+		serverConnection.send("Torino");
+		try {
+			String string = DatatypeConverter.printHexBinary(cipher.doFinal("torino".getBytes()));
+			serverConnection.send(string);
+		} catch (IllegalBlockSizeException | BadPaddingException e) {
+			e.printStackTrace();
+		}
 		serverConnection.send(stream);
 		serverConnection.disconnect();
 	}

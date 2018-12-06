@@ -5,11 +5,18 @@ import Protocol.Protocol;
 import Sec.Authentication;
 import World.World;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.util.Map;
 import java.util.Random;
@@ -80,7 +87,25 @@ public class ClientCare implements Runnable {
 		}
 	}
 	private void acceptPost(BufferedReader br){
+		String name=null,psw=null,sessionId=null;
 
+
+
+		try {
+			sessionId=br.readLine();
+			name=br.readLine();
+
+			Cipher cipher = Cipher.getInstance("Rsa");
+			cipher.init(Cipher.DECRYPT_MODE, (Key) Authentication.getAsymmetricKeys(sessionId).get("private"));
+
+			psw=new String(cipher.doFinal(DatatypeConverter.parseHexBinary(br.readLine())));
+		} catch (IOException | NoSuchAlgorithmException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
+			e.printStackTrace();
+		}
+
+		if(!Authentication.checkPsw(name,psw)){
+			return;
+		}
 
 		Object objectJAXB=null;
 		try {

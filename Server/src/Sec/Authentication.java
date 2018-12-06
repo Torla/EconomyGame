@@ -97,7 +97,7 @@ public class Authentication {
 		keys.put(name,key);
 		return key;
 	}
-	public strictfp  Map<String,Object> getAsymmetricKeys(String name){
+	public static   Map<String,Object> getAsymmetricKeys(String name){
 		return keys.get(name);
 	}
 }
