@@ -53,15 +53,13 @@ public class ClientCare implements Runnable {
 		Integer sessionId= new Random().nextInt();
 		keys = Authentication.genAsymmetricKeys(sessionId.toString());
 
-		System.out.println(DatatypeConverter.printHexBinary(((PublicKey) keys.get("public")).getEncoded()));
-
 		try {
-			byte[] pubKey = ((PublicKey) keys.get("public")).getEncoded();
-			OutputStream out = connection.getOutputStream();
+			String pubKey = DatatypeConverter.printHexBinary(((PublicKey) keys.get("public")).getEncoded());
+			OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 			out.write(pubKey);
-			OutputStreamWriter outW = new OutputStreamWriter(out);
-			outW.write("/n");
-			outW.write(sessionId+"\n");
+			out.write("\n");
+			out.write(sessionId+"\n");
+			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

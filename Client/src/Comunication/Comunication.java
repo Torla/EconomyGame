@@ -24,10 +24,10 @@ public class Comunication {
 		ServerConnection serverConnection = new ServerConnection();
 		serverConnection.connect();
 		serverConnection.send(Protocol.key);
-
-		byte[] encKey= new byte[294];
+		BufferedReader br = new BufferedReader(new InputStreamReader(serverConnection.getInputStream()));
+		String hexKey=null;
 		try {
-			serverConnection.getInputStream().read(encKey,0,294);
+			hexKey=br.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,22 +38,24 @@ public class Comunication {
 			e.printStackTrace();
 		}
 
-		X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(encKey);
+		X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(DatatypeConverter.parseHexBinary(hexKey));
 		try {
 			pubKey = kf.generatePublic(x509EncodedKeySpec);
 		} catch (InvalidKeySpecException e) {
 			e.printStackTrace();
 		}
-		System.out.println(DatatypeConverter.printHexBinary(pubKey.getEncoded()));
 
 		try {
-			sessionId = new BufferedReader(new InputStreamReader(serverConnection.getInputStream())).readLine();
+			sessionId = br.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(sessionId);
+
+		serverConnection.disconnect();
 
 	}
+
+
 
 	public static InputStream getWorldData(){
 		ServerConnection serverConnection = new ServerConnection();
